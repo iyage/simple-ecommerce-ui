@@ -1,0 +1,520 @@
+<html>
+  <head>
+    <style>
+        svg > g:last-child > g:last-child { pointer-events: none }
+     div.google-visualization-tooltip { pointer-events: none }
+     *{
+        margin: 0;
+        padding: 0;
+     }
+             .container{
+                 display: flex;
+                 flex-wrap: wrap;
+             }
+             .flexItem1{
+                 flex:25%;
+                 /* display: none; */
+             }
+             .flexItem2{
+                 flex: 70%;
+             }
+             .dataList{
+                 padding:20;
+                 box-shadow: 4px 0px 1px -1px rgba(0,0,0,0.26);
+                 margin-right: 20px;
+                 height: 100vh;
+     
+             }
+         </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // 'mapsApiKey': 'AIzaSyCGK76qiMmewlllBtlUTsagOt_9RhbDRm4'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+      let sampleSize = [
+        {
+            country : "United States",
+            age : {
+                'less than 20':24,
+                '21-30':20,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "Germany",
+            age : {
+                'less than 20':24,
+                '21-30':20,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "Brazil",
+            age : {
+                'less than 20':24,
+                '21-30':20,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "Canada",
+            age : {
+                'less than 20':24,
+                '21-30':20,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "France",
+            age : {
+                'less than 20':24,
+                '21-30':80,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "RU",
+            age : {
+                'less than 20':84,
+                '21-30':0,
+                '31-40':4
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      },
+      {
+            country : "NG",
+            age : {
+                'less than 20':4,
+                '21-30':27,
+                '31-40':54
+            },
+            gender:{
+                M: 20,
+                F: 10
+            }
+
+      }
+    ]
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Sales'],
+          ['Germany', 200],
+          ['United States', 800],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['France', 600],
+          ['RU', 700],
+          ['NG', 1000]
+        ]);
+
+        var options = {
+            // displayMode: 'text'
+            region:'LR'
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        function myClickHandler(){
+        var selection = chart.getSelection();
+        var message = '';
+        for (var i = 0; i < selection.length; i++) {
+            var item = selection[i];
+           filterDataArray =  sampleSize.filter((e)=>{
+               return  e.country== data.Wf[item.row].c[0].v;
+            })
+            let filterData = filterDataArray[0];
+            let county = filterData.country
+            document.querySelector("#ageDistribution").innerHTML= "";
+            document.querySelector("#genderDistribution").innerHTML= "";
+            document.querySelector('.county').textContent= county;
+            (Object.keys(filterData.age)).forEach((element,index) => {
+              p = document.createElement('p');
+              p.textContent = `${element} : ${Object.values(filterData.age)[index]} `
+              document.querySelector("#ageDistribution").append(p)
+            });
+            (Object.keys(filterData.gender)).forEach((element,index) => {
+              p = document.createElement('p');
+              p.textContent = `${element} : ${Object.values(filterData.gender)[index]} `
+              document.querySelector("#genderDistribution").append(p)
+            });
+        }
+    }
+
+    google.visualization.events.addListener(chart, 'select', myClickHandler);
+     chart.draw(data, options);
+      }
+    </script>
+
+  </head>
+  <body>
+    <div class="container">
+<div class="flexItem1">
+    <div class="dataList" >
+       <h2 style="font-size: 20px; margin-bottom: 20px;">Data Activity By County</h2>
+       <h3 >County: <span  class="county"></span ></h3>
+        <br>
+       <div class="age-class">
+        <h4 id="age-title">Age Distribution</h4>
+       <div id="ageDistribution">
+
+       </div>
+        </div>
+        <br>
+        <div class="gender-class">
+         <h4 >Gender Distribution</h4>
+        <div id="genderDistribution">
+
+        </div>
+         </div>
+         <br>
+       </div>
+    </div>
+    <div class="flexItem2" id="regions_div" style="width:100%; height: 100vh;"></div>
+</div>
+  </body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <html>
+  <head>
+    <title>Add Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<style>
+    /* Set the size of the div element that contains the map */
+#map {
+  height: 400px;
+  /* The height is 400 pixels */
+  width: 100%;
+  /* The width is the width of the web page */
+}
+</style>
+  
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    The div element for the map
+    <div id="map"></div>
+
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+   
+
+    <script>
+        // Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  const uluru = { lat:6.8295, lng:-9.3673 };
+  // The map, centered at Uluru
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 8,
+    center: uluru,
+  });
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: uluru,
+    map: map,
+  });
+}
+
+window.initMap = initMap;
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCGK76qiMmewlllBtlUTsagOt_9RhbDRm4&callback=initMap&v=weekly"
+      defer
+    ></script>
+  </body>
+</html> -->
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Google Map</h1>
+
+<div id="googleMap" style="width:100%;height:400px;"></div>
+
+<script>
+function myMap() {
+var mapProp= {
+  center:new google.maps.LatLng(51.508742,-0.120850),
+  zoom:5,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGK76qiMmewlllBtlUTsagOt_9RhbDRm4&callback=myMap"></script>
+
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/chart.js@3.9.1/dist/chart.js"></script>
+    <script src="https://unpkg.com/chartjs-chart-geo@3.5.2/build/index.umd.js"></script>
+  </head>
+
+  <body>
+    <div >
+      <canvas id="canvas" width="50vw"></canvas>
+    </div>
+    <script>
+      const country = fetch(
+        'https://raw.githubusercontent.com/deldersveld/topojson/master/continents/africa.json'
+      ).then((r) => r.json());
+      const states = fetch(
+        'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/liberia/liberia-counties.json'
+      ).then((r) => r.json());
+    //   const country1 = fetch(
+    //     'https://raw.githubusercontent.com/deldersveld/topojson/master/continents/africa.json'
+    //   ).then((r) => r.json());
+    //   const states1 = fetch(
+    //     'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/liberia/liberia-counties.json'
+    //   ).then((r) => r.json());
+      Promise.all([states, country]).then((data) => {
+        const regions = ChartGeo.topojson
+          .feature(data[0], data[0].objects.LBR_adm1)
+          .features.filter((item) => item.properties.NAME_0 === 'Liberia');
+        const countries = ChartGeo.topojson.feature(data[1], data[1].objects.continent_Africa_subunits).features;
+        const Liberia = countries.find((d) => d.properties.geounit === 'Liberia');
+      console.log(countries)
+      console.log()
+        const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
+          type: 'choropleth',
+          data: {
+            labels: regions.map((d) => d.properties.NAME_1),
+            datasets: [
+              {
+                label: 'Countries',
+                outline: Liberia,
+                data: regions.map((d) => 
+                (
+                    {
+                      feature:d,
+                        value: Math.random()*100,
+                    }
+                    )
+                    ),
+              },
+            ],
+          },
+          options: {
+            showOutline: false,
+            showGraticule: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              xy: {
+                projection: 'equalEarth',
+                padding: 10,
+              },
+            },
+          },
+        });
+        console.log(chart.data.datasets[0].data)
+      });
+    </script>
+  </body>
+</html>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/chart.js@3.9.1/dist/chart.js"></script>
+    <script src="https://unpkg.com/chartjs-chart-geo@3.5.2/build/index.umd.js"></script>
+  </head>
+
+  <body>
+    <div style="width: 100%;">
+      <canvas id="canvas" width="100vw" height="70vh"></canvas>
+    </div>
+    <script>
+      const country = fetch(
+        'https://raw.githubusercontent.com/deldersveld/topojson/master/continents/africa.json'
+      ).then((r) => r.json());
+      const states = fetch(
+        'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/liberia/liberia-counties.json'
+      ).then((r) => {return r.json()});
+      Promise.all([states, country]).then((data) => {
+        const regions = ChartGeo.topojson
+          .feature(data[0], data[0].objects.layer)
+          .features.filter((item) => item.properties.NAME_0 === 'Liberia');
+          console.log(regions)
+        const countries = ChartGeo.topojson.feature(data[1], data[1].objects.continent_Africa_subunits).features;
+        const Liberia = countries.find((d) => d.properties.geounit === 'Liberia');
+        console.log(regions)
+        console.log(countries)
+
+        const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
+          type: 'choropleth',
+          data: {
+            labels: regions.map((d) => d.properties.NAME_1),
+            datasets: [
+              {
+                label: 'Countries',
+                outline: Liberia,
+                data: regions.map((d) => ({
+                  feature: d,
+                  value: Math.random(),
+                })),
+              },
+            ],
+          },
+          options: {
+            showOutline: false,
+            showGraticule: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              xy: {
+                projection: 'equalEarth',
+                padding: 10,
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/chart.js@3.9.1/dist/chart.js"></script>
+    <script src="https://unpkg.com/d3@v6"></script>
+    <script src="https://unpkg.com/d3-composite-projections"></script>
+    <script src="../build/index.umd.js"></script>
+  </head>
+
+  <body>
+    <div style="width: 75%; border: 1px solid black">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script>
+      fetch('https://raw.githubusercontent.com/rveciana/d3-composite-projections/master/test/data/france.json')
+        .then((r) => r.json())
+        .then((france) => {
+          const regions = ChartGeo.topojson.feature(france, france.objects.regions).features;
+          const projection = d3.geoConicConformalFrance();
+          projection.fitWidth = (size, object) => projection.fitSize([size, 1000], object);
+
+          const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
+            type: 'choropleth',
+            data: {
+              labels: regions.map((d, i) => d.properties.name || i),
+              datasets: [
+                {
+                  label: 'Regions',
+                  outline: regions,
+                  data: regions.map((d) => ({ feature: d, value: Math.random() * 10 })),
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              scales: {
+                xy: {
+                  // projection: 'equalEarth',
+                  projection: () => projection,
+                },
+                // color: {
+                //   position: 'bottom',
+                //   quantize: 5,
+                // }
+              },
+            },
+          });
+        });
+    </script>
+  </body>
+</html>  -->

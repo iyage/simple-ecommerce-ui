@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "sneakers",
+			"path": "../../../Downloads/sneakers"
+		},
+		{
+			"name": "html-ecommerce",
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "html-ecommerce"
+	}
+}
