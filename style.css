@@ -328,7 +328,11 @@ imageContainer{
     @media screen and (max-width:480px) 
     {
         
-        
+        .feature-icon{
+            font-size: 30px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
         .navTopItem:nth-child(2){
             display:none;
         }
@@ -357,9 +361,7 @@ imageContainer{
         height: 60vh;
         clip-path:none;
         }
-        .sliderImage{
-            width: 310px;
-        }
+    
         .sliderTitle{
        display: none;
         }
@@ -477,6 +479,11 @@ imageContainer{
                  font-size: 30px;
                  font-weight: 400;
                }
+               .feature-icon{
+                font-size: 50px;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
                .featureTitle{
                 font-size: 16px;
                 font-weight: 600;
@@ -593,6 +600,11 @@ imageContainer{
                 margin: 20px 0;
                 text-align: center;
                }
+               .feature-icon{
+                font-size: 30px;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
 
              .product{
                 clip-path: none;
